@@ -1,0 +1,84 @@
+GIT
+  remote: git://github.com/rspec/rspec-core.git
+  revision: bcf7d9eb19dc013e4e0b72a588e4eac53933bb68
+  branch: master
+  specs:
+    rspec-core (3.7.0.pre)
+      rspec-support (= 3.7.0.pre)
+
+GIT
+  remote: git://github.com/rspec/rspec-expectations.git
+  revision: 1c9d5d960115ff0de803819580956a2615778a7d
+  branch: master
+  specs:
+    rspec-expectations (3.7.0.pre)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (= 3.7.0.pre)
+
+GIT
+  remote: git://github.com/rspec/rspec-mocks.git
+  revision: 0820af734f1a8926b0fee4fa4dd3e00ff70b4990
+  branch: master
+  specs:
+    rspec-mocks (3.7.0.pre)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (= 3.7.0.pre)
+
+GIT
+  remote: git://github.com/rspec/rspec-support.git
+  revision: 70a8b33fb194f5014e37d99dc3d9acca88ab8647
+  branch: master
+  specs:
+    rspec-support (3.7.0.pre)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ast (2.3.0)
+    diff-lcs (1.3)
+    mustermann (1.0.0)
+    parallel (1.12.0)
+    parser (2.4.0.0)
+      ast (~> 2.2)
+    powerpack (0.1.1)
+    rack (2.0.3)
+    rack-protection (2.0.0)
+      rack
+    rack-throttle (0.5.0)
+      bundler (>= 1.0.0)
+      rack (>= 1.0.0)
+    rainbow (2.2.2)
+      rake
+    rake (12.0.0)
+    rspec (1.3.2)
+    rubocop (0.49.1)
+      parallel (~> 1.10)
+      parser (>= 2.3.3.1, < 3.0)
+      powerpack (~> 0.1)
+      rainbow (>= 1.99.1, < 3.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (~> 1.0, >= 1.0.1)
+    ruby-progressbar (1.8.1)
+    sinatra (2.0.0)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.0)
+      tilt (~> 2.0)
+    tilt (2.0.8)
+    unicode-display_width (1.3.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rack-throttle
+  rspec
+  rspec-core!
+  rspec-expectations!
+  rspec-mocks!
+  rspec-support!
+  rubocop
+  sinatra
+
+BUNDLED WITH
+   1.15.3
