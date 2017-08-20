@@ -10,9 +10,6 @@ module BRGenerator
   end
 
   def send_data(data)
-    Rollbar.configure do |config|
-      config.access_token = ENV['ROLLBAR_TOKEN']
-    end
     Rollbar.info(data)
   end
 
