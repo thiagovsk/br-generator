@@ -14,14 +14,13 @@ class BankUtil
   def generate
     result = { bank: @bank }
 
-    result[:agency_number] = generate_number_len(@agency.digits)
-    generate_agency_check_number(result)
-    generate_account_number(result)
-    generate_account_check_number(result)
-    unless @account.default_begin.empty?
-      result[:account_number] =
-        @account.default_begin = result[:account_number]
-    end
+    agency_number = generate_agency_number
+    result[:agency_number] = agency_number
+    result[:agency_check_number] = generate_agency_check_number(agency_number)
+    account_number = generate_account_number
+    result[:account_number] = account_number
+    account_check_number = generate_account_check_number(account_number)
+    result[:account_check_number] = account_check_number
 
     result
   end
@@ -29,35 +28,41 @@ class BankUtil
   def generate_with_data(agency, account)
     result = { bank: @bank, agency_number: agency }
 
-    generate_agency_check_number result
+    result[:agency_check_number] = generate_agency_check_number(agency)
     result[:account_number] = account
-    generate_account_check_number result
+    result[:account_check_number] = generate_account_check_number(account)
 
     result
   end
 
-  def generate_agency_check_number(result)
+  def generate_agency_number
+    generate_number_len(@agency.digits)
+  end
+
+  def generate_agency_check_number(agency_number)
     return unless @agency.agency_rule?
-    agency_check_number = @agency.rule.execute(result[:agency_number])
-    result[:agency_check_number] = agency_check_number
+    @agency.rule.execute(agency_number)
   end
 
-  def generate_account_number(result)
-    result[:account_number] =
+  def generate_account_number
+    account_number =
       generate_number_len_range(@account.min_digits, @account.max_digits)
+    return @account.default_begin + account_number unless @account
+                                                          .default_begin.empty?
+    account_number
   end
 
-  def generate_account_check_number(result)
-    account = trim_account(result[:account_number])
+  def generate_account_check_number(account, agency_number = '')
+    account = trim_account(account)
 
     account_number = if @account_check.include_agency?
-                       result[:agency_number] + @account_check.agency_ending +
+                       agency_number + @account_check.agency_ending +
                          account
                      else
                        account
                      end
 
-    result[:account_check_number] = @account_check.rule.execute(account_number)
+    @account_check.rule.execute(account_number)
   end
 
   def trim_account(account)

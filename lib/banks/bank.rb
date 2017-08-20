@@ -9,9 +9,13 @@ require_relative '../errors/bank_errors'
 
 # Data for the banks
 class Bank
-  attr_accessor :code, :agency, :account, :account_check, :bank_generator
+  attr_accessor :code, :agency, :account, :account_check, :bank_util
   def generate
     @bank_util.generate
+  end
+
+  def self.validate(bank_code, agency, agency_check, account, account_check)
+    BankUtil.validate(bank_code, agency, agency_check, account, account_check)
   end
 
   def generate_with_data(agency, account)

@@ -1,7 +1,4 @@
-require_relative '../utils/rule'
-require_relative '../utils/formatter'
 require_relative '../documents/document'
-require_relative '../documents/document_util'
 
 # Responsible to create a CPF document.
 class CPF < Document

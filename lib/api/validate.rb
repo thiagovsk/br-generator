@@ -3,7 +3,9 @@ require 'json'
 
 require_relative 'br_generator'
 
-require_relative '../banks/bank_util'
+require_relative '../banks/bank'
+
+require_relative '../documents/document'
 
 require_relative '../errors/bank_errors'
 
@@ -25,7 +27,7 @@ number, the agency number, the account number and the account check number!' },
                              json, '/validate/bank')
     end
     begin
-      result = BankUtil.validate(
+      result = Bank.validate(
         json['bank'], json['agency_number'],
         (json.key?('agency_check_number') ? json['agency_check_number'] : ''),
         json['account_number'], json['account_check_number']
@@ -50,12 +52,7 @@ number, the agency number, the account number and the account check number!' },
                              { error: 'The document validation requires the
 document number!' }, json, "/validate/#{document}")
     end
-    result = DocumentUtil.validate(document, json['number'])
+    result = Document.validate(document, json['number'])
     create_response(200, result, json, "/validate/#{document}")
-  end
-
-  def validate_bank_json(json)
-    json.key?('bank') && json.key?('agency_number') &&
-      json.key?('account_number') && json.key?('account_check_number')
   end
 end

@@ -48,4 +48,9 @@ module BRGenerator
     create_response(404, { error: "Bank #{json['bank']} not found!" }, json,
                     endpoint)
   end
+
+  def validate_bank_json(json)
+    json.key?('bank') && json.key?('agency_number') &&
+      json.key?('account_number') && json.key?('account_check_number')
+  end
 end
