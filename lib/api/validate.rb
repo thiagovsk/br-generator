@@ -1,9 +1,13 @@
 require 'sinatra/base'
 require 'json'
 
+require_relative 'br_generator'
+
 require_relative '../banks/bank_util'
 
 require_relative '../errors/bank_errors'
+
+include BRGenerator
 
 # This class is the endpoint for validation.
 class ValidateAPI < Sinatra::Base
@@ -16,8 +20,9 @@ class ValidateAPI < Sinatra::Base
     json = JSON.parse(request.body.read)
     unless validate_bank_json json
       return create_response(400,
-                             error: 'The bank validation requires the bank
-number, the agency number, the account number and the account check number!')
+                             { error: 'The bank validation requires the bank
+number, the agency number, the account number and the account check number!' },
+                             json, '/validate/bank')
     end
     begin
       result = BankUtil.validate(
@@ -25,9 +30,10 @@ number, the agency number, the account number and the account check number!')
         (json.key?('agency_check_number') ? json['agency_check_number'] : ''),
         json['account_number'], json['account_check_number']
       )
-      create_response(200, result)
+      create_response(200, result, json, '/validate/bank')
     rescue BankNotFoundError
-      create_response(404, error: "Bank #{json['bank']} not found!")
+      create_response(404, { error: "Bank #{json['bank']} not found!" }, json,
+                      '/validate/bank')
     end
   end
 
@@ -36,23 +42,20 @@ number, the agency number, the account number and the account check number!')
     json = JSON.parse(request.body.read)
     unless %w[CPF CNPJ].include?(document)
       return create_response(404,
-                             error: "Document #{document} not found!")
+                             { error: "Document #{document} not found!" }, json,
+                             "/validate/#{document}")
     end
     unless json.key?('number')
       return create_response(400,
-                             error: 'The document validation requires the
-document number!')
+                             { error: 'The document validation requires the
+document number!' }, json, "/validate/#{document}")
     end
     result = DocumentUtil.validate(document, json['number'])
-    create_response(200, result)
+    create_response(200, result, json, "/validate/#{document}")
   end
 
   def validate_bank_json(json)
     json.key?('bank') && json.key?('agency_number') &&
       json.key?('account_number') && json.key?('account_check_number')
-  end
-
-  def create_response(code, result)
-    [code, { 'Content-Type' => 'application/json' }, result.to_json]
   end
 end
