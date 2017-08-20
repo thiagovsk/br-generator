@@ -1,5 +1,11 @@
-require_relative '../banks/bank_information'
 require_relative '../banks/bank'
+
+require_relative '../banks/bank_information/banco_brasil.rb'
+require_relative '../banks/bank_information/santander.rb'
+require_relative '../banks/bank_information/bradesco.rb'
+require_relative '../banks/bank_information/itau.rb'
+require_relative '../banks/bank_information/hsbc.rb'
+require_relative '../banks/bank_information/citibank.rb'
 
 # Generates bank from code
 module BankGenerator

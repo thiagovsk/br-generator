@@ -1,4 +1,12 @@
+require_relative '../utils/rule'
+
+require_relative 'agency'
+require_relative 'account'
+require_relative 'account_check'
+require_relative 'bank_util'
+
 require_relative '../errors/bank_errors'
+
 # Data for the banks
 class Bank
   attr_accessor :code, :agency, :account, :account_check, :bank_generator

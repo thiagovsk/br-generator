@@ -1,5 +1,4 @@
 require_relative '../utils/randomizer'
-require_relative 'bank_information'
 require_relative 'bank'
 include Randomizer
 
