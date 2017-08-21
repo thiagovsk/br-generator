@@ -24,7 +24,7 @@ class ValidateAPI < Sinatra::Base
       return create_response(400,
                              { error: 'The bank validation requires the bank
 number, the agency number, the account number and the account check number!' },
-                             json, '/validate/bank')
+                             json)
     end
     begin
       result = Bank.validate(
@@ -34,8 +34,7 @@ number, the agency number, the account number and the account check number!' },
       )
       create_response(200, result, json, '/validate/bank')
     rescue BankNotFoundError
-      create_response(404, { error: "Bank #{json['bank']} not found!" }, json,
-                      '/validate/bank')
+      create_response(404, { error: "Bank #{json['bank']} not found!" }, json)
     end
   end
 
@@ -44,15 +43,14 @@ number, the agency number, the account number and the account check number!' },
     json = JSON.parse(request.body.read)
     unless %w[CPF CNPJ].include?(document)
       return create_response(404,
-                             { error: "Document #{document} not found!" }, json,
-                             "/validate/#{document}")
+                             { error: "Document #{document} not found!" }, json)
     end
     unless json.key?('number')
       return create_response(400,
                              { error: 'The document validation requires the
-document number!' }, json, "/validate/#{document}")
+document number!' }, json)
     end
     result = Document.validate(document, json['number'])
-    create_response(200, result, json, "/validate/#{document}")
+    create_response(200, result, json)
   end
 end

@@ -2,8 +2,8 @@ require_relative '../utils/api_data.rb'
 
 # Utilities for the API endpoints
 module BRGenerator
-  def create_response(code, result, request, endpoint)
-    api_data = APIData.new(endpoint, request, result)
+  def create_response(code, result, request)
+    api_data = APIData.new(request, result)
     send_data(api_data.to_json, code)
     [code, { 'Content-Type' => 'application/json' }, result.to_json]
   end

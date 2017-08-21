@@ -33,22 +33,21 @@ class GenerateAPI < Sinatra::Base
       cpf: cpf, cnpj: cnpj, rg: rg,
       bank: bank, name: name, cep: cep
     }
-    create_response(200, result, {}, '/generate')
+    create_response(200, result, {})
   end
 
   get '/generate/:option' do
     option = params['option']
     case option
     when 'bank'
-      create_response(200, generate_random_bank, {}, "/generate/#{option}")
+      create_response(200, generate_random_bank, {})
     when 'cpf', 'cnpj', 'rg', 'name', 'cep'
       result = {}
       result_option = instance_variable_get("@#{option}")
       result[option] = result_option.generate
-      create_response(200, result, {}, "/generate/#{option}")
+      create_response(200, result, {})
     else
-      create_response(404, { error: "Option #{option} not found!" }, {},
-                      "/generate/#{option}")
+      create_response(404, { error: "Option #{option} not found!" }, {})
     end
   end
 
@@ -58,15 +57,12 @@ class GenerateAPI < Sinatra::Base
     case option
     when 'bank'
       begin
-        create_response(200, generate_bank(config), {},
-                        "/generate/#{option}/#{config}")
+        create_response(200, generate_bank(config), {})
       rescue BankNotFoundError
-        create_response(404, { error: "Bank #{config} not found!" }, {},
-                        "/generate/#{option}/#{config}")
+        create_response(404, { error: "Bank #{config} not found!" }, {})
       end
     else
-      create_response(404, { error: "Option #{option} not found!" }, {},
-                      "/generate/#{option}/#{config}")
+      create_response(404, { error: "Option #{option} not found!" }, {})
     end
   end
 
@@ -74,16 +70,16 @@ class GenerateAPI < Sinatra::Base
     json = JSON.parse(request.body.read)
     generation_response = if json.keys.empty?
                             create_response(400, { error: 'No keys provided!' },
-                                            json, '/generate')
+                                            json)
                           else
                             result = generate_from_json(json, '/generate')
                             if result.keys.empty?
                               create_response(400,
                                               { error:
                                                   'No valid keys provided!' },
-                                              json, '/generate')
+                                              json)
                             else
-                              create_response(200, result, json, 'generate')
+                              create_response(200, result, json)
                             end
                           end
     generation_response
