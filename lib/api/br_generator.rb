@@ -10,7 +10,7 @@ module BRGenerator
   end
 
   def send_data(data)
-    Rollbar.info(data)
+    Raven.capture_message(data, level: 'info')
   end
 
   def generate_from_json(json, endpoint)
