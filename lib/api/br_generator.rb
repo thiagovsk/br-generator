@@ -1,4 +1,3 @@
-require 'rollbar'
 require_relative '../utils/api_data.rb'
 
 # Utilities for the API endpoints
