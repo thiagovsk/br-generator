@@ -3,7 +3,7 @@
 br-generator is an API to generate and validate different types of things.
 
 ### 
-Usage: [Postman](https://documenter.getpostman.com/view/2450131/br-generator/6n8wrEc)
+Usage: Soon
 
 ### What can it generate?
 
