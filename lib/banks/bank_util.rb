@@ -14,15 +14,21 @@ class BankUtil
   def generate
     result = { bank: @bank }
 
+    generate_numbers(result)
+
+    result
+  end
+
+  def generate_numbers(result)
     agency_number = generate_agency_number
     result[:agency_number] = agency_number
-    result[:agency_check_number] = generate_agency_check_number(agency_number)
+    if @agency.agency_rule?
+      result[:agency_check_number] = generate_agency_check_number(agency_number)
+    end
     account_number = generate_account_number
     result[:account_number] = account_number
     account_check_number = generate_account_check_number(account_number)
     result[:account_check_number] = account_check_number
-
-    result
   end
 
   def generate_with_data(agency, account)
