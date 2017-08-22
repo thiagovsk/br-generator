@@ -3,7 +3,7 @@
 br-generator is an API to generate and validate different types of things.
 
 ### 
-Usage: Soon
+Usage: [Wiki](https://github.com/lucasqueiroz/br-generator/wiki)
 
 ### What can it generate?
 
