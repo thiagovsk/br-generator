@@ -32,7 +32,7 @@ number, the agency number, the account number and the account check number!' },
         (json.key?('agency_check_number') ? json['agency_check_number'] : ''),
         json['account_number'], json['account_check_number']
       )
-      create_response(200, result, json, '/validate/bank')
+      create_response(200, result, json)
     rescue BankNotFoundError
       create_response(404, { error: "Bank #{json['bank']} not found!" }, json)
     end
