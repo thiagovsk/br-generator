@@ -48,7 +48,7 @@ The generator uses different bank account validation algorithms. The banks are:
  - Santander
  
  ### Known Bugs
- - [x] ~~When generating a bank account from a bank that does not have the 
+ - [X] ~~When generating a bank account from a bank that does not have the 
  agency check number, the result contains a null agency check number, instead
   of not having the field~~
 
