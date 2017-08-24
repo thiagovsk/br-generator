@@ -5,5 +5,6 @@ gem 'rspec'
   gem lib, git: "git://github.com/rspec/#{lib}.git", branch: 'master'
 end
 gem 'rubocop'
+gem 'rubocop-rspec'
 gem 'sentry-raven'
 gem 'sinatra'
