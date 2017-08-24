@@ -14,8 +14,8 @@ class Bank
     @bank_util.generate
   end
 
-  def self.validate(bank_code, agency, agency_check, account, account_check)
-    BankUtil.validate(bank_code, agency, agency_check, account, account_check)
+  def validate(agency, agency_check, account, account_check)
+    BankUtil.validate(@code, agency, agency_check, account, account_check)
   end
 
   def generate_with_data(agency, account)

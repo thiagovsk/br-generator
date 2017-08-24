@@ -89,13 +89,20 @@ class BankUtil
   end
 
   def self.validate_result(result, agency_check, account_check)
-    result['valid'] = if result.key?('agency_check_number') &&
-                         result[:agency_check_number] != agency_check
-                        false
-                      elsif result[:account_check_number] != account_check
-                        false
-                      else
-                        true
-                      end
+    valid = BankUtil.valid_account_check?(result[:account_check_number],
+                                         account_check)
+    if result.key?(:agency_check_number) && valid
+      valid = BankUtil.valid_agency_check?(result[:agency_check_number],
+                                           agency_check)
+    end
+    result[:valid] = valid
+  end
+
+  def self.valid_agency_check?(result_agency_check, agency_check)
+    result_agency_check == agency_check
+  end
+
+  def self.valid_account_check?(result_account_check, account_check)
+    result_account_check == account_check
   end
 end

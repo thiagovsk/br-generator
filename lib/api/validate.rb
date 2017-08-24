@@ -27,8 +27,9 @@ number, the agency number, the account number and the account check number!' },
                              json)
     end
     begin
-      result = Bank.validate(
-        json['bank'], json['agency_number'],
+      bank = Bank.bank(json['bank'])
+      result = bank.validate(
+        json['agency_number'],
         (json.key?('agency_check_number') ? json['agency_check_number'] : ''),
         json['account_number'], json['account_check_number']
       )
