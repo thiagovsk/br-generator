@@ -8,23 +8,6 @@ module Randomizer
     generate_number_len rand(Range.new(length_min, length_max))
   end
 
-  def generate_number_range(range = 0..1000)
-    rand(range)
-  end
-
-  def generate_random_string(length = 30, lowercase = true, numbers = true,
-                             uppercase = true, symbols = true)
-    arr = []
-
-    arr.push(*'a'..'z') if lowercase
-    arr.push(*1..9) if numbers
-    arr.push(*'A'..'Z') if uppercase
-    arr.push(*'!'..'?') if symbols
-    Array.new(length) do
-      arr.sample
-    end.join
-  end
-
   def get_random_line_from_file(file)
     File.readlines(file).sample.delete("\n")
   end
