@@ -7,9 +7,9 @@ describe Bradesco do
     context 'when agency is 1112 and account is 1111112' do
       before do
         allow(bank.bank_util).to receive(:generate_agency_number)
-                                 .and_return('1112')
+          .and_return('1112')
         allow(bank.bank_util).to receive(:generate_account_number)
-                                 .and_return('1111112')
+          .and_return('1111112')
       end
 
       let(:generated) { bank.generate }
@@ -26,9 +26,9 @@ describe Bradesco do
     context 'when check numbers should be P' do
       before do
         allow(bank.bank_util).to receive(:generate_agency_number)
-                                 .and_return('1124')
+          .and_return('1124')
         allow(bank.bank_util).to receive(:generate_account_number)
-                                 .and_return('1111119')
+          .and_return('1111119')
       end
 
       let(:generated) { bank.generate }
@@ -45,9 +45,9 @@ describe Bradesco do
     context 'when checks number should be 0' do
       before do
         allow(bank.bank_util).to receive(:generate_agency_number)
-                                 .and_return('1115')
+          .and_return('1115')
         allow(bank.bank_util).to receive(:generate_account_number)
-                                 .and_return('1111113e')
+          .and_return('1111113')
       end
 
       let(:generated) { bank.generate }
