@@ -19,22 +19,18 @@ class Bradesco < Bank
 
   def agency_after_rule(mod)
     mod = 11 - mod
-    if mod == 10
-      'P'
-    elsif mod == 11
-      '0'
-    else
-      mod.to_s
-    end
+    agency_mod(mod)
+  end
+
+  def agency_mod(mod)
+    return '0' if mod == 11
+    return 'P' if mod == 10
+    mod.to_s
   end
 
   def account_after_rule(mod)
-    if mod.zero?
-      '0'
-    elsif mod == 1
-      'P'
-    else
-      (11 - mod).to_s
-    end
+    return '0' if mod.zero?
+    return 'P' if mod == 1
+    (11 - mod).to_s
   end
 end
