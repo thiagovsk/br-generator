@@ -19,13 +19,13 @@ class BancoDoBrasil < Bank
 
   def agency_after_rule(mod)
     mod = 11 - mod
-    if mod == 11
-      '0'
-    elsif mod == 10
-      'X'
-    else
-      mod.to_s
-    end
+    agency_mod(mod)
+  end
+
+  def agency_mod(mod)
+    return '0' if mod == 11
+    return 'X' if mod == 10
+    mod.to_s
   end
 
   def account_after_rule(mod)
