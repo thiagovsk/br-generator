@@ -3,13 +3,17 @@ require_relative '../utils/api_data.rb'
 # Utilities for the API endpoints
 module BRGenerator
   def create_response(code, result, request)
-    api_data = APIData.new(request, result)
-    send_data(api_data.to_json, code)
+    metrics_data = build_metrics_data(code, request)
+    send_metrics(result, metrics_data)
     [code, { 'Content-Type' => 'application/json' }, result.to_json]
   end
 
-  def send_data(data, code)
-    Raven.capture_message(data, level: 'info', extra: { response: code })
+  def send_metrics(result, metrics_data)
+    Raven.capture_message(result, level: 'info', extra: metrics_data)
+  end
+
+  def build_metrics_data(code, request)
+    { response: code, request: request }
   end
 
   def generate_from_json(json, endpoint)
