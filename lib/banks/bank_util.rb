@@ -90,7 +90,7 @@ class BankUtil
 
   def self.validate_result(result, agency_check, account_check)
     valid = BankUtil.valid_account_check?(result[:account_check_number],
-                                         account_check)
+                                          account_check)
     if result.key?(:agency_check_number) && valid
       valid = BankUtil.valid_agency_check?(result[:agency_check_number],
                                            agency_check)
