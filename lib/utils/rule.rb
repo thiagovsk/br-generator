@@ -26,17 +26,24 @@ class Rule
   end
 
   def execute(number, join = false)
-    number = if number.length > @weight.length
-               number[0..@weight.length]
-             else
-               number.rjust(@weight.length, '0')
-             end
+    number = format_number(number)
+    mod = exec_rules(number)
+    return join_numbers(number, mod) if join
+    mod
+  end
 
+  def format_number(number)
+    return number[0..@weight.length] if number.length > @weight.length
+    number.rjust(@weight.length, '0')
+  end
+
+  def exec_rules(number)
     sum = exec_before_modulo(number)
-    mod = exec_after_modulo(sum)
+    exec_after_modulo(sum)
+  end
 
-    return "#{number}#{mod}" if join
-    mod.to_s
+  def join_numbers(number, mod)
+    "#{number}#{mod}"
   end
 
   def exec_before_modulo(number)
@@ -49,13 +56,17 @@ class Rule
     sum = 0
     i = 0
     @weight.each do |w|
-      mult = w.to_i * number[i].to_i
-      mult = @sum_digits ? sum_digits(mult) : mult
-      mult = @ignore_first_digit ? mult % 10 : mult
-      sum += mult
+      sum += multiply_weight(w.to_i, number[i].to_i)
       i += 1
     end
     sum
+  end
+
+  def multiply_weight(w, number)
+    mult = w * number
+    mult = sum_digits(mult) if @sum_digits
+    return mult % 10 if @ignore_first_digit
+    mult
   end
 
   def exec_after_modulo(sum)
