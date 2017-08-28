@@ -72,7 +72,7 @@ class GenerateAPI < Sinatra::Base
                             create_response(400, { error: 'No keys provided!' },
                                             json)
                           else
-                            result = generate_from_json(json, '/generate')
+                            result = generate_from_json(json)
                             if result.keys.empty?
                               create_response(400,
                                               { error:

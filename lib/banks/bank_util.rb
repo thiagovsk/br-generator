@@ -5,8 +5,14 @@ include Randomizer
 # Generates the bank data with valid digits.
 class BankUtil
   attr_reader :agency_number, :agency_check_number, :account_number,
-  :account_check_number
+              :account_check_number
   def initialize(bank)
+    load_bank_variables(bank)
+    @agency_number = generate_agency_number
+    @account_number = generate_account_number
+  end
+
+  def load_bank_variables(bank)
     @bank = bank.code
     @agency = bank.agency
     @account = bank.account
@@ -14,29 +20,22 @@ class BankUtil
   end
 
   def generate
-    result = { bank: @bank }
-    result.merge(generate_bank_numbers)
+    generate_agency_check_number
+    generate_account_check_number
+    build_result
   end
 
-  def generate_bank_numbers
-    agency_number = generate_agency_number
-    account_number = generate_account_number
-    {
-      agency_number: agency_number,
-      agency_check_number: generate_agency_check_number(agency_number),
-      account_number: account_number,
-      account_check_number: generate_account_check_number(account_number,
-                                                          agency_number)
-    }
+  def build_result
+    @result = { bank: @bank, agency_number: @agency_number,
+                agency_check_number: @agency_check_number,
+                account_number: @account_number,
+                account_check_number: @account_check_number }
+    return @result unless @agency_check_number.nil?
+    @result.tap { |rs| rs.delete(:agency_check_number) }
   end
 
   def generate_agency_number
     generate_number_len(@agency.digits)
-  end
-
-  def generate_agency_check_number(agency_number)
-    return '' unless @agency.agency_rule?
-    @agency.rule.execute(agency_number)
   end
 
   def generate_account_number
@@ -49,9 +48,15 @@ class BankUtil
     account + @account.default_begin
   end
 
-  def generate_account_check_number(account, agency = '')
-    account = trim_account(account)
-    account = add_agency_number(account, agency)
+  def generate_agency_check_number
+    return '' unless @agency.agency_rule?
+    @agency_check_number = @agency.rule.execute(@agency_number)
+  end
+
+  def generate_account_check_number
+    account = trim_account(@account_number)
+    account = add_agency_number(account, @agency_number)
+    @account_check_number = @account_check.rule.execute(account)
   end
 
   def trim_account(account)

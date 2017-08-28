@@ -3,9 +3,10 @@ require_relative '../utils/api_data.rb'
 # Utilities for the API endpoints
 module BRGenerator
   def create_response(code, result, request)
+    result = result.to_json
     metrics_data = build_metrics_data(code, request)
     send_metrics(result, metrics_data)
-    [code, { 'Content-Type' => 'application/json' }, result.to_json]
+    [code, { 'Content-Type' => 'application/json' }, result]
   end
 
   def send_metrics(result, metrics_data)
@@ -16,9 +17,9 @@ module BRGenerator
     { response: code, request: request }
   end
 
-  def generate_from_json(json, endpoint)
+  def generate_from_json(json)
     result = generate_document_from_json(json, {})
-    generate_bank_from_json(json, result, endpoint)
+    generate_bank_from_json(json, result)
   end
 
   def generate_document_from_json(json, result)
@@ -32,24 +33,23 @@ module BRGenerator
     result
   end
 
-  def generate_bank_from_json(json, result, endpoint)
+  def generate_bank_from_json(json, result)
     if json.key?('bank')
       if json['bank'].to_s.eql?('true')
         result['bank'] = generate_random_bank
       else
-        generate_specific_bank(json, result, endpoint)
+        generate_specific_bank(json, result)
       end
     end
     result
   end
 
-  def generate_specific_bank(json, result, endpoint)
+  def generate_specific_bank(json, result)
     bank = json['bank']
     result['bank'] = generate_bank(bank)
     result
   rescue BankNotFoundError
-    create_response(404, { error: "Bank #{json['bank']} not found!" }, json,
-                    endpoint)
+    create_response(404, { error: "Bank #{json['bank']} not found!" }, json)
   end
 
   def validate_bank_json(json)
