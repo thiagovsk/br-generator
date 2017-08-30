@@ -1,0 +1,1 @@
+BankNotFoundError = Class.new(StandardError)

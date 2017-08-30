@@ -1,8 +1,21 @@
-require_relative '../data_class'
+# Helpers
+require_relative '../helpers/random_helper'
 
-# Holds the information for the account numbers
-class Account < DataClass
-  def initialize(min_digits, max_digits)
-    super({ min_digits: min_digits, max_digits: max_digits })
+include RandomHelper
+
+# Data for the account number
+class Account
+  def initialize(rule, min_digits, max_digits)
+    @rule = rule
+    @min_digits = min_digits
+    @max_digits = max_digits
+  end
+
+  def account_number
+    generate_number_len_range(@min_digits, @max_digits)
+  end
+
+  def account_check_digit(number)
+    @rule.execute(number)
   end
 end

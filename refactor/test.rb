@@ -1,11 +1,8 @@
-require_relative 'data_class'
-class TestClass < DataClass
-  def initialize
-    super({ test: 'a' })
-  end
-end
+require_relative 'bank/bank'
+require_relative 'bank/banks/banco_do_brasil'
 
-test = TestClass.new
-puts test.test
-test.test = 'b'
-puts test.test
+bb = BancoDoBrasil.new
+
+puts bb.create_numbers
+
+puts Bank.by_code('001')
