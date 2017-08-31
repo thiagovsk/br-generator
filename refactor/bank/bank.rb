@@ -8,14 +8,15 @@ require_relative 'account'
 
 # Data for the banks
 class Bank
+  attr_reader :code
   def initialize(code, agency, account)
     @code = code
     @agency = agency
     @account = account
   end
-  
+
   def self.by_code(code)
-    ObjectSpace.each_object do |o|
+    ObjectSpace.each_object(self) do |o|
       return o if o.code == code
     end
     raise BankNotFoundError
