@@ -1,6 +1,6 @@
 require_relative '../bank'
 
-# Banco do Brasil bank class
+# Bradesco bank class
 class Bradesco < Bank
   def initialize
     initialize_defaults

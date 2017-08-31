@@ -24,8 +24,7 @@ module RuleHelper
   end
 
   def sum_digits(number)
-    digit_sum = number.to_s.chars.map(&:to_i).inject(0) { |sum, x| sum + x }
-    digit_sum.inject { |n, d| n * 10 + d }
+    number.to_s.chars.map(&:to_i).inject(0) { |sum, x| sum + x }
   end
 
   def join_numbers(number, digit, join)
