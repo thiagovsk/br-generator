@@ -1,5 +1,7 @@
 # br-generator
 
+![Codacy Grade](https://api.codacy.com/project/badge/Grade/ff2d63b44d78408a80e6ae2622468854)
+
 br-generator is an API to generate and validate different types of things.
 
 ### 
